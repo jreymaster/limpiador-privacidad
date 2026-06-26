@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaShield - Limpiador de Metadatos Gratuito</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="max-w-xl w-full bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700 text-center">
+        <h1 class="text-3xl font-bold text-indigo-400 mb-2">🛡️ MetaShield</h1>
+        <p class="text-slate-400 mb-6">Elimina el GPS, la fecha y los datos ocultos de tus fotos antes de subirlas a internet.</p>
+
+        <!-- Zona de arrastre de archivos -->
+        <div id="drop-zone" class="border-2 border-dashed border-slate-600 rounded-xl p-8 my-4 hover:border-indigo-500 transition cursor-pointer bg-slate-850">
+            <p class="text-slate-300 font-medium">Arrastra tu imagen aquí o haz clic para seleccionar</p>
+            <input type="file" id="file-input" class="hidden" accept="image/*">
+        </div>
+
+        <div id="status" class="text-sm text-indigo-300 my-2 hidden">Procesando archivo de forma segura...</div>
+
+        <!-- Muro de Pago Oculto por defecto -->
+        <div id="paywall" class="hidden bg-slate-950 p-6 rounded-xl border border-amber-500 my-4">
+            <p class="text-amber-400 font-bold text-lg mb-2">⚠️ Función Premium Requerida</p>
+            <p class="text-sm text-slate-300 mb-4">Has excedido el límite gratuito diario. Desbloquea el procesado masivo e ilimitado de por vida al instante.</p>
+            
+            <div class="bg-slate-900 p-3 rounded text-left font-mono text-xs text-slate-400 break-all mb-4 border border-slate-800">
+                <span class="text-indigo-400 block font-sans font-bold text-sm mb-1">Pagar con Tarjeta o Google/Apple Pay (vía Crypto-Gateway):</span>
+                <a href="https://swaps.app/?crypto=USDT&network=polygon&amount=3" target="_blank" class="block text-center bg-indigo-600 text-white font-sans font-bold py-2 rounded mt-2 hover:bg-indigo-500 transition">Pagar 3.00 USDT (Aprox. 3€)</a>
+            </div>
+            
+            <p class="text-[10px] text-slate-500">El acceso se liberará automáticamente en tu navegador una vez confirmado el pago en la red.</p>
+        </div>
+
+        <!-- Botón de descarga simulado para la demo funcional -->
+        <button id="download-btn" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-6 rounded-xl transition mt-4 shadow-lg">
+            ⬇️ Descargar Imagen Limpia
+        </button>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const status = document.getElementById('status');
+        const paywall = document.getElementById('paywall');
+        const downloadBtn = document.getElementById('download-btn');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', handleFile);
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-indigo-500'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-indigo-500'));
+        dropZone.addEventListener('drop', (e) => { e.preventDefault(); handleFile(e); });
+
+        let processCount = 0;
+
+        function handleFile(e) {
+            processCount++;
+            status.classList.remove('hidden');
+            downloadBtn.classList.add('hidden');
+            paywall.classList.add('hidden');
+
+            setTimeout(() => {
+                status.classList.add('hidden');
+                if (processCount > 1) {
+                    paywall.classList.remove('hidden');
+                } else {
+                    downloadBtn.classList.remove('hidden');
+                }
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
+
